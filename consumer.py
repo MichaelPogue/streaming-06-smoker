@@ -1,67 +1,44 @@
-""" Authored By: Michael Pogue | Created on: 21Feb23
+"""
+    This program listens for work messages contiously. 
+    Start multiple versions to add more workers.  
 
-This code is to read a CSV file and output the contents into the RabbitMQ
-queue system. 
------------------------------------------------------------------------------"""
+    Author:    Dr. Denise Case
+    Edits by:  Michael Pogue
+    Date:      Feburary 07, 2023
 
-import os
+"""
+
 import pika
 import sys
-import re
-from time import strftime
-from datetime import datetime as dt
-from collections import deque
+import time
+from time import strftime # Importing time module to track production and consumption times.
 
-host = "localhost"
-EMAIL = os.getenv("EMAIL_ADDRESS")
-queue_smoker_temp = "01-smoker"
-queue_food_a = "02-food-A"
-queue_food_b = "03-food-B"
-
-main_temp_deque = deque(maxlen=5)
-food_temp_a_deque = deque(maxlen=20)
-food_temp_b_deque = deque(maxlen=20)
-
-def ch1_smoker_temp(ch, method, properties, body):
-    """
-    
-    """
-
-    # 
-    recieved_message = body.decode()
-    current_temp = []
-
-    current_temp[0] = re.findall(r"[-+]?\d*\.\d+", recieved_message)
-    main_temp_deque.append(current_temp[0])
-
-    if max(main_temp_deque) - min(main_temp_deque) >= 15:
-        temp = max(main_temp_deque) - min(main_temp_deque)
-        print(f"ALERT! Temperature has dropped by {abs(temp)}, abandon all hope!")
+"""  
+Define behavior on getting a message.
+------------------------------------------------------------------------------------------ """
+# define a callback function to be called when a message is received
+def callback(ch, method, properties, body):
+    # decode the binary message body to a string
+    print(f" [x] Received {body.decode()} at {strftime('%H:%M:%S')}")
+    # simulate work by sleeping for the number of dots in the message
+    time.sleep(body.count(b"."))
+    # when done with task, tell the user
+    print(" [x] Done.")
+    # acknowledge the message was received and processed 
+    # (now it can be deleted from the queue)
+    ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
-    ch.basic_ack(delivery_tag = method.delivery_tag)
-
-def ch2_food_a_temp():
-    """
-    
-    """
-    pass
-
-def ch3_food_b_temp():
-    """
-    
-    """    
-    pass
-
-def main(hn: str = "localhost", qn1: str = queue_smoker_temp): #, qn2: str = queue_food_a, qn3: str = food_temp_b_deque):
-    """
-    
-    """
+"""  
+Continuously listen for task messages on a named queue.
+------------------------------------------------------------------------------------------ """
+# define a main function to run the program
+def main(hn: str = "localhost", qn: str = "task_queue"):
     # when a statement can go wrong, use a try-except block
     try:
         # try this code, if it works, keep going
         # create a blocking connection to the RabbitMQ server
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host = hn))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host=hn))
 
     # except, if there's an error, do this
     except Exception as e:
@@ -80,9 +57,7 @@ def main(hn: str = "localhost", qn1: str = queue_smoker_temp): #, qn2: str = que
         # a durable queue will survive a RabbitMQ server restart
         # and help ensure messages are processed in order
         # messages will not be deleted until the consumer acknowledges
-        channel.queue_declare(queue = qn1, durable = True)
-        # channel.queue_declare(queue = qn2, durable = True)
-        # channel.queue_declare(queue = qn3, durable = True)
+        channel.queue_declare(queue=qn, durable=True)
 
         # The QoS level controls the # of messages
         # that can be in-flight (unacknowledged by the consumer)
@@ -92,14 +67,12 @@ def main(hn: str = "localhost", qn1: str = queue_smoker_temp): #, qn2: str = que
         # This helps prevent a worker from becoming overwhelmed
         # and improve the overall system performance. 
         # prefetch_count = Per consumer limit of unaknowledged messages      
-        channel.basic_qos(prefetch_count = 1) 
+        channel.basic_qos(prefetch_count=1) 
 
         # configure the channel to listen on a specific queue,  
         # use the callback function named callback,
         # and do not auto-acknowledge the message (let the callback handle it)
-        channel.basic_consume( queue = qn1, on_message_callback = queue_smoker_temp)
-        # channel.basic_consume( queue = qn2, on_message_callback = queue_smoker_temp)
-        # channel.basic_consume( queue = qn3, on_message_callback = queue_smoker_temp)
+        channel.basic_consume( queue=qn, on_message_callback=callback)
 
         # print a message to the console for the user
         print(" [*] Ready for work. To exit press CTRL+C")
@@ -121,5 +94,18 @@ def main(hn: str = "localhost", qn1: str = queue_smoker_temp): #, qn2: str = que
         print("\nClosing connection. Goodbye.\n")
         connection.close()
 
+
+"""  
+Launch Code!
+------------------------------------------------------------------------------------------ """
+# Standard Python idiom to indicate main program entry point
+# This allows us to import this module and use its functions
+# without executing the code below.
+# If this is the program being run, then execute the code below
 if __name__ == "__main__":
-    main()
+    # call the main function with the information needed
+    host = 'localhost'
+    queue_1 = "01-smoker"
+    queue_2 = "02-food-A"
+    queue_3 = "03-food-B"
+    main(host, queue_1)

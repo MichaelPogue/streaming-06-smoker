@@ -110,7 +110,7 @@ def send_message(host: str, queue_name: str, message):
         ch.basic_publish(exchange="", routing_key=queue_name, body=message)
         # print a message to the console for the user
         print(f" [x] Sent {message} from {queue_name}")
-        time.sleep(30)
+        time.sleep(.1)
     except pika.exceptions.AMQPConnectionError as e:
         print(f"ERROR! Connection to RabbitMQ server failed: {e}")
         sys.exit(1)
@@ -121,12 +121,12 @@ def send_message(host: str, queue_name: str, message):
 """ Code Command Center
 -----------------------------------------------------------------------------"""
 def main():
-    # Ask to launch website for monitoring. 
-    a = input("Open RabbitMQ monitoring website? (y or n)")
-    if a == "y":
-        webbrowser.open_new("http://localhost:15672/#/queues")
-    else:
-        pass
+    # # Ask to launch website for monitoring. 
+    # a = input("Open RabbitMQ monitoring website? (y or n)")
+    # if a == "y":
+    #     webbrowser.open_new("http://localhost:15672/#/queues")
+    # else:
+    #     pass
     # Begin task of sending message.
     read_csv()
 
