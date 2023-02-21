@@ -21,10 +21,9 @@ host = 'localhost'
 queue_1 = "01-smoker"
 queue_2 = "02-food-A"
 queue_3 = "03-food-B"
-deque_1 = deque(maxlen=5)
-deque_2 = deque(maxlen=20)
-deque_3 = deque(maxlen=20)
-
+deque_1 = deque(maxlen = 5)
+deque_2 = deque(maxlen = 20)
+deque_3 = deque(maxlen = 20)
 
 """  
 Define behavior on getting a message.
@@ -33,10 +32,10 @@ Define behavior on getting a message.
 def callback1(ch, method, properties, body):
     all_data = []
     # decode the binary message body to a string
-    print(f" [x] Received {body.decode()} at {strftime('%H:%M:%S')}")
+    print(f" [x] Received {body.decode()} at {strftime('%H:%M:%S')} from 01-smoker")
     # simulate work by sleeping for the number of dots in the message
     time.sleep(body.count(b"."))
-
+    
     recieved_message = body.decode()
 
     current_temp = str(re.findall(r"[-+]?\d*\.\d+", recieved_message))
@@ -54,7 +53,7 @@ def main(hn: str = "localhost", qn1: str = "01-smoker", qn2: str = "02-food-A", 
     try:
         # try this code, if it works, keep going
         # create a blocking connection to the RabbitMQ server
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host=hn))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host = hn))
 
     # except, if there's an error, do this
     except Exception as e:
