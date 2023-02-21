@@ -12,14 +12,26 @@ import pika
 import sys
 import time
 import re
+import os
 from collections import deque
 from time import strftime # Importing time module to track production and consumption times.
+
+EMAIL = os.getenv("EMAIL_ADDRESS")
+host = 'localhost'
+queue_1 = "01-smoker"
+queue_2 = "02-food-A"
+queue_3 = "03-food-B"
+deque_1 = deque(maxlen=5)
+deque_2 = deque(maxlen=20)
+deque_3 = deque(maxlen=20)
+
 
 """  
 Define behavior on getting a message.
 ------------------------------------------------------------------------------------------ """
 # define a callback function to be called when a message is received
 def callback1(ch, method, properties, body):
+    all_data = []
     # decode the binary message body to a string
     print(f" [x] Received {body.decode()} at {strftime('%H:%M:%S')}")
     # simulate work by sleeping for the number of dots in the message
@@ -28,11 +40,8 @@ def callback1(ch, method, properties, body):
     recieved_message = body.decode()
 
     current_temp = str(re.findall(r"[-+]?\d*\.\d+", recieved_message))
-    deque_1.append(float(current_temp))
-    if deque_1 and max(deque_1) - min(deque_1) >= 15:
-        print(" XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ")
 
-    # (now it can be deleted from the queue)
+
     ch.basic_ack(delivery_tag = method.delivery_tag)
 
 
@@ -115,11 +124,4 @@ Launch Code!
 # If this is the program being run, then execute the code below
 if __name__ == "__main__":
     # call the main function with the information needed
-    host = 'localhost'
-    queue_1 = "01-smoker"
-    queue_2 = "02-food-A"
-    queue_3 = "03-food-B"
-    deque_1 = deque(maxlen=5)
-    deque_2 = deque(maxlen=20)
-    deque_3 = deque(maxlen=20)
     main(host, queue_1, queue_2, queue_3)
