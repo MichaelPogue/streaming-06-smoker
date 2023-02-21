@@ -35,6 +35,11 @@ def ch1_smoker_temp(ch, method, properties, body):
     current_temp[0] = re.findall(r"[-+]?\d*\.\d+", recieved_message)
     main_temp_deque.append(current_temp[0])
 
+    if max(main_temp_deque) - min(main_temp_deque) >= 15:
+        temp = max(main_temp_deque) - min(main_temp_deque)
+        print(f"ALERT! Temperature has dropped by {abs(temp)}, abandon all hope!")
+
+
     ch.basic_ack(delivery_tag = method.delivery_tag)
 
 def ch2_food_a_temp():
