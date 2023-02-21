@@ -11,20 +11,20 @@
 import pika
 import sys
 import time
+from collections import deque
 from time import strftime # Importing time module to track production and consumption times.
 
 """  
 Define behavior on getting a message.
 ------------------------------------------------------------------------------------------ """
 # define a callback function to be called when a message is received
-def callback(ch, method, properties, body):
+def callback1(ch, method, properties, body):
     # decode the binary message body to a string
     print(f" [x] Received {body.decode()} at {strftime('%H:%M:%S')}")
     # simulate work by sleeping for the number of dots in the message
     time.sleep(body.count(b"."))
     # when done with task, tell the user
-    print(" [x] Done.")
-    # acknowledge the message was received and processed 
+
     # (now it can be deleted from the queue)
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
@@ -33,7 +33,7 @@ def callback(ch, method, properties, body):
 Continuously listen for task messages on a named queue.
 ------------------------------------------------------------------------------------------ """
 # define a main function to run the program
-def main(hn: str = "localhost", qn: str = "task_queue"):
+def main(hn: str = "localhost", qn1: str = "01-smoker", qn2: str = "02-food-A", qn3: str = "03-food-B"):
     # when a statement can go wrong, use a try-except block
     try:
         # try this code, if it works, keep going
@@ -57,7 +57,9 @@ def main(hn: str = "localhost", qn: str = "task_queue"):
         # a durable queue will survive a RabbitMQ server restart
         # and help ensure messages are processed in order
         # messages will not be deleted until the consumer acknowledges
-        channel.queue_declare(queue=qn, durable=True)
+        channel.queue_declare(queue = qn1, durable = True)
+        channel.queue_declare(queue = qn2, durable = True)
+        channel.queue_declare(queue = qn3, durable = True)
 
         # The QoS level controls the # of messages
         # that can be in-flight (unacknowledged by the consumer)
@@ -72,7 +74,9 @@ def main(hn: str = "localhost", qn: str = "task_queue"):
         # configure the channel to listen on a specific queue,  
         # use the callback function named callback,
         # and do not auto-acknowledge the message (let the callback handle it)
-        channel.basic_consume( queue=qn, on_message_callback=callback)
+        channel.basic_consume( queue = qn1, on_message_callback = callback1)
+        # channel.basic_consume( queue = qn2, on_message_callback = callback2)
+        # channel.basic_consume( queue = qn3, on_message_callback = callback3)
 
         # print a message to the console for the user
         print(" [*] Ready for work. To exit press CTRL+C")
@@ -108,4 +112,7 @@ if __name__ == "__main__":
     queue_1 = "01-smoker"
     queue_2 = "02-food-A"
     queue_3 = "03-food-B"
-    main(host, queue_1)
+    deque_1 = deque(maxlen=5)
+    deque_2 = deque(maxlen=20)
+    deque_3 = deque(maxlen=20)
+    main(host, queue_1, queue_2, queue_3)
