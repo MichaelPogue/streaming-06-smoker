@@ -4,6 +4,7 @@ This code is to read a CSV file and output the contents into the RabbitMQ
 queue system. 
 -----------------------------------------------------------------------------"""
 
+import os
 import pika
 import sys
 import re
@@ -11,10 +12,11 @@ from time import strftime
 from datetime import datetime as dt
 from collections import deque
 
-host =              "localhost"
+host = "localhost"
+EMAIL = os.getenv("EMAIL_ADDRESS")
 queue_smoker_temp = "01-smoker"
-queue_food_a =      "02-food-A"
-queue_food_b =      "03-food-B"
+queue_food_a = "02-food-A"
+queue_food_b = "03-food-B"
 
 main_temp_deque = deque(maxlen=5)
 food_temp_a_deque = deque(maxlen=20)
@@ -25,11 +27,13 @@ def ch1_smoker_temp(ch, method, properties, body):
     
     """
 
-    print(f" [x] Received {body.decode()} at {strftime('%H:%M:%S')}")
-    main_temp_deque.append(body.decode())
+    # 
+    recieved_message = body.decode()
+    current_temp = []
 
-    a_base = body.decode()
-    a_current_temp = re.findall(r"[-+]?\d*\.\d+", a_base)
+
+    current_temp[0] = re.findall(r"[-+]?\d*\.\d+", recieved_message)
+    main_temp_deque.append(current_temp[0])
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
 
