@@ -27,11 +27,10 @@ def callback1(ch, method, properties, body):
 
     recieved_message = body.decode()
 
-    try:
-        current_temp = str(re.findall(r"[-+]?\d*\.\d+", recieved_message))
-        deque_1.append(float(current_temp))
-    except ValueError:
-        pass
+    current_temp = str(re.findall(r"[-+]?\d*\.\d+", recieved_message))
+    deque_1.append(float(current_temp))
+    if deque_1 and max(deque_1) - min(deque_1) >= 15:
+        print(" XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ")
 
     # (now it can be deleted from the queue)
     ch.basic_ack(delivery_tag = method.delivery_tag)
