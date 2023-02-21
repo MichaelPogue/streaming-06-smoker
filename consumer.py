@@ -35,11 +35,18 @@ def callback1(ch, method, properties, body):
     print(f" [x] Received {body.decode()} at {strftime('%H:%M:%S')} from 01-smoker")
     # simulate work by sleeping for the number of dots in the message
     time.sleep(body.count(b"."))
-    
+
     recieved_message = body.decode()
 
-    current_temp = str(re.findall(r"[-+]?\d*\.\d+", recieved_message))
+    # Deque 
+    deque_1.append(recieved_message)
 
+    # deque_1_first = deque_1[0]
+    # current_temp = str(re.findall(r"[-+]?\d*\.\d+", recieved_message))
+
+    # Deque Initial
+
+    # Deque Present
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
 
