@@ -11,6 +11,7 @@
 import pika
 import sys
 import time
+import re
 from collections import deque
 from time import strftime # Importing time module to track production and consumption times.
 
@@ -23,10 +24,15 @@ def callback1(ch, method, properties, body):
     print(f" [x] Received {body.decode()} at {strftime('%H:%M:%S')}")
     # simulate work by sleeping for the number of dots in the message
     time.sleep(body.count(b"."))
-    # when done with task, tell the user
+
+
+    try:
+        pass
+    except ValueError:
+        pass
 
     # (now it can be deleted from the queue)
-    ch.basic_ack(delivery_tag=method.delivery_tag)
+    ch.basic_ack(delivery_tag = method.delivery_tag)
 
 
 """  
