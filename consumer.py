@@ -41,12 +41,12 @@ def callback1(ch, method, properties, body):
     # Deque 
     deque_1.append(recieved_message)
 
-    # deque_1_first = deque_1[0]
-    # current_temp = str(re.findall(r"[-+]?\d*\.\d+", recieved_message))
-
     # Deque Initial
-
+    deque_1_initial = deque_1[0]
+    initial_temp = str(re.findall(r"[-+]?\d*\.\d+", recieved_message))
     # Deque Present
+    deque_1_present = recieved_message
+    present_temp = str(re.findall(r"[-+]?\d*\.\d+", recieved_message))
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
 
