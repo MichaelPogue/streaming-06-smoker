@@ -31,7 +31,6 @@ def ch1_smoker_temp(ch, method, properties, body):
     recieved_message = body.decode()
     current_temp = []
 
-
     current_temp[0] = re.findall(r"[-+]?\d*\.\d+", recieved_message)
     main_temp_deque.append(current_temp[0])
 
@@ -54,7 +53,7 @@ def ch3_food_b_temp():
     """    
     pass
 
-def main(hn: str = "localhost", qn1: str = queue_smoker_temp, qn2: str = queue_food_a, qn3: str = food_temp_b_deque):
+def main(hn: str = "localhost", qn1: str = queue_smoker_temp): #, qn2: str = queue_food_a, qn3: str = food_temp_b_deque):
     """
     
     """
@@ -82,8 +81,8 @@ def main(hn: str = "localhost", qn1: str = queue_smoker_temp, qn2: str = queue_f
         # and help ensure messages are processed in order
         # messages will not be deleted until the consumer acknowledges
         channel.queue_declare(queue = qn1, durable = True)
-        channel.queue_declare(queue = qn2, durable = True)
-        channel.queue_declare(queue = qn3, durable = True)
+        # channel.queue_declare(queue = qn2, durable = True)
+        # channel.queue_declare(queue = qn3, durable = True)
 
         # The QoS level controls the # of messages
         # that can be in-flight (unacknowledged by the consumer)
@@ -99,8 +98,8 @@ def main(hn: str = "localhost", qn1: str = queue_smoker_temp, qn2: str = queue_f
         # use the callback function named callback,
         # and do not auto-acknowledge the message (let the callback handle it)
         channel.basic_consume( queue = qn1, on_message_callback = queue_smoker_temp)
-        channel.basic_consume( queue = qn2, on_message_callback = queue_smoker_temp)
-        channel.basic_consume( queue = qn3, on_message_callback = queue_smoker_temp)
+        # channel.basic_consume( queue = qn2, on_message_callback = queue_smoker_temp)
+        # channel.basic_consume( queue = qn3, on_message_callback = queue_smoker_temp)
 
         # print a message to the console for the user
         print(" [*] Ready for work. To exit press CTRL+C")
