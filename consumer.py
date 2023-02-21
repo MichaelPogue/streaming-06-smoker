@@ -43,10 +43,14 @@ def callback1(ch, method, properties, body):
 
     # Deque Initial
     deque_1_initial = deque_1[0]
-    initial_temp = str(re.findall(r"[-+]?\d*\.\d+", recieved_message))
+    initial_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_initial))
     # Deque Present
     deque_1_present = recieved_message
-    present_temp = str(re.findall(r"[-+]?\d*\.\d+", recieved_message))
+    present_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_present))
+
+    # Calculate temperature difference
+    a = abs(initial_temp - present_temp)
+    print(a)
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
 
