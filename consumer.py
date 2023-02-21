@@ -25,9 +25,11 @@ def callback1(ch, method, properties, body):
     # simulate work by sleeping for the number of dots in the message
     time.sleep(body.count(b"."))
 
+    recieved_message = body.decode()
 
     try:
-        pass
+        current_temp = str(re.findall(r"[-+]?\d*\.\d+", recieved_message))
+        deque_1.append(float(current_temp))
     except ValueError:
         pass
 
