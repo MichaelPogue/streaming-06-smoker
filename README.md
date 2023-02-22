@@ -21,7 +21,7 @@ This project works by with two functions. One to check for queued data, and the 
 the times given. The two functions are interchangeable as no unique data exists within them. To alter the name of the queue, your deque
 values, or your warning triggers, simply update the variables at the beginning of the code.
 
-### Check List
+# Check List
 ## Task 1. Open Your Existing Project
 1. On your machine, open your existing streaming-05-getting-started repo in VS Code. :heavy_check_mark:
 2. Create a file for your consumer (or 3 files if you'd like to use 3 consumers). :heavy_check_mark:
