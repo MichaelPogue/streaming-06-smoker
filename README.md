@@ -6,12 +6,12 @@ By Michael Pogue on 21Feb23
 2. Create a file for your consumer (or 3 files if you'd like to use 3 consumers). :heavy_check_mark:
 
 ## Task 2. Design and Implement Each Consumer
-    Design and implement each bbq consumer. You could have one. You could have 3.  More detailed help provided in links below. 
-    Use the logic, approach, and structure from prior modules (use the recommended versions).
-    Modifying them to serve your purpose IS part of the assignment.
-    Do not start from scratch - do not search for code - do not use a notebook.
-    Use comments in the code and repo to explain your work. 
-    Use docstring comments and add your name and date to your README and your code files. 
+1. Design and implement each bbq consumer. You could have one. You could have 3.  More detailed help provided in links below. :heavy_check_mark: 
+2. Use the logic, approach, and structure from prior modules (use the recommended versions). :heavy_check_mark: 
+3. Modifying them to serve your purpose IS part of the assignment. :heavy_check_mark: 
+4. Do not start from scratch - do not search for code - do not use a notebook. ***One of these days I'm going to learn.*** :heavy_check_mark: 
+5. Use comments in the code and repo to explain your work. :heavy_check_mark:  
+6. Use docstring comments and add your name and date to your README and your code files. 
 
 ## Task 3. Professionally Present your Project
     Explain your project in the README.
