@@ -39,6 +39,6 @@ Run each terminal long enough that you can show the significant events in your s
     Visible Food B stall with timestamp
 
 ### Proof of Viability
-![image](https://user-images.githubusercontent.com/115908053/220505275-78c01d66-211b-49dc-b27e-4fef42fac1de.png)
+![image](https://user-images.githubusercontent.com/115908053/220508496-4ff628f6-bca2-4729-ab6d-fce6e95fc70b.png)
 
 
