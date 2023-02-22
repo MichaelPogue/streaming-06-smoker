@@ -26,7 +26,7 @@ deque_2 = deque(maxlen = 20)
 deque_3 = deque(maxlen = 20)
 
 # define a callback function to be called when a message is received
-def callback1(ch, method, properties, body):
+def decode_smoker_messages(ch, method, properties, body):
     """ 
     test
     ---------------------------------------------------------------------------
@@ -63,6 +63,79 @@ def callback1(ch, method, properties, body):
     ch.basic_ack(delivery_tag = method.delivery_tag)
     time.sleep(1)
 
+def decode_food_a_messages(ch, method, properties, body):
+    """ 
+    test
+    ---------------------------------------------------------------------------
+    """
+    # decode the binary message body to a string
+    print(f" [x] Received {body.decode()}") # at {strftime('%H:%M:%S')} from 01-smoker")
+    # simulate work by sleeping for the number of dots in the message
+    # time.sleep(body.count(b"."))
+
+    # Deque 
+    deque_1.append(body.decode())
+
+    # Deque Initial
+    initial_data = deque_1[0]
+    initial_split = initial_data.split(",")
+    initial_temp = float(initial_split[1][:-1])
+    # initial_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_initial))
+
+    # Deque Present
+    present_data = body.decode()
+    present_split = present_data.split(",")
+    present_temp = float(present_split[1][:-1])
+    # present_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_present))
+
+    # Calculate temperature difference
+    temperature_difference = abs(float(initial_temp) - float(present_temp))
+
+    # Temperature difference
+    if temperature_difference >= 15:
+        print(f"     A fluctuation of in temperature has been detected.")
+        print(f"     Smoker temperature has decreased from {initial_temp} to {present_temp}.")
+        print(f"     A change of more than {temperature_difference}")
+
+    ch.basic_ack(delivery_tag = method.delivery_tag)
+    time.sleep(1)
+
+def decode_food_b_messages(ch, method, properties, body):
+    """ 
+    test
+    ---------------------------------------------------------------------------
+    """
+    # decode the binary message body to a string
+    print(f" [x] Received {body.decode()}") # at {strftime('%H:%M:%S')} from 01-smoker")
+    # simulate work by sleeping for the number of dots in the message
+    # time.sleep(body.count(b"."))
+
+    # Deque 
+    deque_1.append(body.decode())
+
+    # Deque Initial
+    initial_data = deque_1[0]
+    initial_split = initial_data.split(",")
+    initial_temp = float(initial_split[1][:-1])
+    # initial_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_initial))
+
+    # Deque Present
+    present_data = body.decode()
+    present_split = present_data.split(",")
+    present_temp = float(present_split[1][:-1])
+    # present_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_present))
+
+    # Calculate temperature difference
+    temperature_difference = abs(float(initial_temp) - float(present_temp))
+
+    # Temperature difference
+    if temperature_difference >= 15:
+        print(f"     A fluctuation of in temperature has been detected.")
+        print(f"     Smoker temperature has decreased from {initial_temp} to {present_temp}.")
+        print(f"     A change of more than {temperature_difference}")
+
+    ch.basic_ack(delivery_tag = method.delivery_tag)
+    time.sleep(1)
 
 # define a main function to run the program
 def main(hn: str = "localhost", qn1: str = "01-smoker", qn2: str = "02-food-A", qn3: str = "03-food-B"):
@@ -110,9 +183,9 @@ def main(hn: str = "localhost", qn1: str = "01-smoker", qn2: str = "02-food-A", 
         # configure the channel to listen on a specific queue,  
         # use the callback function named callback,
         # and do not auto-acknowledge the message (let the callback handle it)
-        channel.basic_consume( queue = qn1, on_message_callback = callback1)
-        # channel.basic_consume( queue = qn2, on_message_callback = callback2)
-        # channel.basic_consume( queue = qn3, on_message_callback = callback3)
+        channel.basic_consume( queue = qn1, on_message_callback = decode_smoker_messages)
+        channel.basic_consume( queue = qn2, on_message_callback = decode_food_a_messages)
+        channel.basic_consume( queue = qn3, on_message_callback = decode_food_b_messages)
 
         # print a message to the console for the user
         print(" [*] Ready for work. To exit press CTRL+C")
