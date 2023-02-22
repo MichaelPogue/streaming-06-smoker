@@ -57,7 +57,7 @@ Your README.md screenshots must show 4 concurrent processes:
 In addition, you must show at least 3 significant events.
 
 Run each terminal long enough that you can show the significant events in your screenshots:
-    Visible Smoker Alert with timestamp 
+    Visible Smoker Alert with timestamp :x:
     Visible Food A stall with timestamp :heavy_check_mark:
     Visible Food B stall with timestamp :heavy_check_mark:
 
