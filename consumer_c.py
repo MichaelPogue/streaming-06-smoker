@@ -1,10 +1,4 @@
 """
-    This program listens for work messages contiously. 
-    Start multiple versions to add more workers.  
-
-    Author:    Dr. Denise Case
-    Edits by:  Michael Pogue
-    Date:      Feburary 07, 2023
 
 """
 
@@ -18,11 +12,11 @@ from time import strftime # Importing time module to track production and consum
 
 EMAIL = os.getenv("EMAIL_ADDRESS")
 host = 'localhost'
-queue = "03-food-B"
-data_deque = deque(maxlen = 20)
+data_queue = "03-food-B"
+data_deque = deque(maxlen = 5)
 
 # define a callback function to be called when a message is received
-def decode_food_b_messages(ch, method, properties, body):
+def decode_message(ch, method, properties, body):
     """ 
     test
     ---------------------------------------------------------------------------
@@ -60,7 +54,7 @@ def decode_food_b_messages(ch, method, properties, body):
     time.sleep(5)
 
 # define a main function to run the program
-def main(hn: str = "localhost", qn: str = "03-food-B"):
+def main(hn: str, qn: str):
     """ 
     Continuously listen for task messages on a named queue.
     ---------------------------------------------------------------------------
@@ -103,7 +97,7 @@ def main(hn: str = "localhost", qn: str = "03-food-B"):
         # configure the channel to listen on a specific queue,  
         # use the callback function named callback,
         # and do not auto-acknowledge the message (let the callback handle it)
-        channel.basic_consume( queue = qn, on_message_callback = decode_food_b_messages)
+        channel.basic_consume( queue = qn, on_message_callback = decode_message)
 
         # print a message to the console for the user
         print(" [*] Ready for work. To exit press CTRL+C")
@@ -134,4 +128,4 @@ def main(hn: str = "localhost", qn: str = "03-food-B"):
 # If this is the program being run, then execute the code below
 if __name__ == "__main__":
     # call the main function with the information needed
-    main(host, data_deque)
+    main(host, data_queue)
