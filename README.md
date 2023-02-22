@@ -38,9 +38,7 @@ Run each terminal long enough that you can show the significant events in your s
     Visible Food A stall with timestamp
     Visible Food B stall with timestamp
 
-
-### Proof of Concept
-
-
 ### Proof of Viability
+![image](https://user-images.githubusercontent.com/115908053/220505275-78c01d66-211b-49dc-b27e-4fef42fac1de.png)
+
 
