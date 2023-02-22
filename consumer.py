@@ -58,10 +58,10 @@ def decode_smoker_messages(ch, method, properties, body):
     if temperature_difference >= 15:
         print(f"     A fluctuation of in temperature has been detected.")
         print(f"     Smoker temperature has decreased from {initial_temp} to {present_temp}.")
-        print(f"     A change of more than {temperature_difference}")
+        print(f"     A change of more than {round(temperature_difference)}")
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
-    time.sleep(1)
+    time.sleep(5)
 
 def decode_food_a_messages(ch, method, properties, body):
     """ 
@@ -74,10 +74,10 @@ def decode_food_a_messages(ch, method, properties, body):
     # time.sleep(body.count(b"."))
 
     # Deque 
-    deque_1.append(body.decode())
+    deque_2.append(body.decode())
 
     # Deque Initial
-    initial_data = deque_1[0]
+    initial_data = deque_2[0]
     initial_split = initial_data.split(",")
     initial_temp = float(initial_split[1][:-1])
     # initial_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_initial))
@@ -92,13 +92,13 @@ def decode_food_a_messages(ch, method, properties, body):
     temperature_difference = abs(float(initial_temp) - float(present_temp))
 
     # Temperature difference
-    if temperature_difference >= 15:
+    if temperature_difference >= 1:
         print(f"     A fluctuation of in temperature has been detected.")
         print(f"     Smoker temperature has decreased from {initial_temp} to {present_temp}.")
-        print(f"     A change of more than {temperature_difference}")
+        print(f"     A change of more than {round(temperature_difference)}")
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
-    time.sleep(1)
+    time.sleep(5)
 
 def decode_food_b_messages(ch, method, properties, body):
     """ 
@@ -111,10 +111,10 @@ def decode_food_b_messages(ch, method, properties, body):
     # time.sleep(body.count(b"."))
 
     # Deque 
-    deque_1.append(body.decode())
+    deque_3.append(body.decode())
 
     # Deque Initial
-    initial_data = deque_1[0]
+    initial_data = deque_3[0]
     initial_split = initial_data.split(",")
     initial_temp = float(initial_split[1][:-1])
     # initial_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_initial))
@@ -129,13 +129,13 @@ def decode_food_b_messages(ch, method, properties, body):
     temperature_difference = abs(float(initial_temp) - float(present_temp))
 
     # Temperature difference
-    if temperature_difference >= 15:
+    if temperature_difference >= 1:
         print(f"     A fluctuation of in temperature has been detected.")
         print(f"     Smoker temperature has decreased from {initial_temp} to {present_temp}.")
-        print(f"     A change of more than {temperature_difference}")
+        print(f"     A change of more than {round(temperature_difference)}")
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
-    time.sleep(1)
+    time.sleep(5)
 
 # define a main function to run the program
 def main(hn: str = "localhost", qn1: str = "01-smoker", qn2: str = "02-food-A", qn3: str = "03-food-B"):
@@ -207,9 +207,8 @@ def main(hn: str = "localhost", qn1: str = "01-smoker", qn2: str = "02-food-A", 
         print("\nClosing connection. Goodbye.\n")
         connection.close()
 
-
 """  
-Launch Code!
+
 ------------------------------------------------------------------------------------------ """
 # Standard Python idiom to indicate main program entry point
 # This allows us to import this module and use its functions
