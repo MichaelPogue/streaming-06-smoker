@@ -32,9 +32,9 @@ Define behavior on getting a message.
 def callback1(ch, method, properties, body):
     all_data = []
     # decode the binary message body to a string
-    print(f" [x] Received {body.decode()} at {strftime('%H:%M:%S')} from 01-smoker")
+    print(f" [x] Received {body.decode()}") # at {strftime('%H:%M:%S')} from 01-smoker")
     # simulate work by sleeping for the number of dots in the message
-    time.sleep(body.count(b"."))
+    # time.sleep(body.count(b"."))
 
     recieved_message = body.decode()
 
@@ -48,7 +48,7 @@ def callback1(ch, method, properties, body):
     # initial_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_initial))
 
     # Deque Present
-    deque_1_present = recieved_message
+    deque_1_present = body.decode()
     # present_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_present))
     deque_1_present = deque_1[0]
     present_split = deque_1_present.split(",")
@@ -60,7 +60,7 @@ def callback1(ch, method, properties, body):
     if a >= 15:
         print(f"A fluctuation of {a} has been detected. Smoker temperature has decreased by more than 15 degrees F in 2.5 minutes.")
 
-    ch.basic_ack(delivery_tag = method.delivery_tag)
+    time.sleep(5)
 
 
 """  
