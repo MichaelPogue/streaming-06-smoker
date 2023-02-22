@@ -7,17 +7,14 @@ should the data be outside the expected levels.
 
 ### Project Prerequisites
 1. CSV data file with a similar format of the following: 
-    5/22/2021 16:23	261.4		
-    5/22/2021 16:23	261.4		
-    5/22/2021 16:23		147.9	
-    5/22/2021 16:23		147.9	142.3
-    5/22/2021 16:23			142.3
+5/22/2021 16:23	261.4		
+5/22/2021 16:23	261.4		
+5/22/2021 16:23		147.9	
+5/22/2021 16:23		147.9	142.3
+5/22/2021 16:23			142.3
 2. Have the following modules installed: 
-    import pika
-    import sys
-    import time
-    import os
-    from collections import deque
+import pika, sys, time, os
+from collections import deque
     
 ### Project Information
 This project works by with two functions. One to check for queued data, and the other to read it and determine if there is a problem in 
