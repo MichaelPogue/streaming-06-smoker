@@ -1,5 +1,7 @@
-"""
+""" Authored By: Michael Pogue | Created on: 21Feb23 | Last Updated: 21Feb23 
 
+This code will monitor incoming traffic from RabbitMQ and monitor it for 
+problematic temperature fluctuations.
 """
 
 import pika
@@ -8,7 +10,7 @@ import time
 import re
 import os
 from collections import deque
-from time import strftime # Importing time module to track production and consumption times.
+from time import strftime 
 
 EMAIL = os.getenv("EMAIL_ADDRESS")
 host = 'localhost'
@@ -18,38 +20,30 @@ data_deque = deque(maxlen = 20)
 # define a callback function to be called when a message is received
 def decode_message(ch, method, properties, body):
     """ 
-    test
+    Function to decode individual lines of data and monitor for temperature fluctuations.
     ---------------------------------------------------------------------------
     """
     # decode the binary message body to a string
-    print(f" [x] Received {body.decode()}") # at {strftime('%H:%M:%S')} from 01-smoker")
-    # simulate work by sleeping for the number of dots in the message
-    # time.sleep(body.count(b"."))
+    print(f" [x] Received {body.decode()}") 
 
-    # Deque 
+    # Set initial queue data used to create deque.
     data_deque.append(body.decode())
-
-    # Deque Initial
     initial_data = data_deque[0]
     initial_split = initial_data.split(",")
     initial_temp = float(initial_split[1][:-1])
-    # initial_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_initial))
+    # initial_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_initial)) <- A monument to failure.
 
-    # Deque Present
+    # Add continuous data to array.
     present_data = body.decode()
     present_split = present_data.split(",")
     present_temp = float(present_split[1][:-1])
-    # present_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_present))
+    # present_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_present)) <- A monument to failure.
 
-    # Calculate temperature difference
+    # Calculate temperature difference from the initial input with the latest.
     temperature_difference = abs(float(initial_temp) - float(present_temp))
 
-    # Temperature difference
+    # Calculate if the temperature is within parameters, then send a warning message.
     if temperature_difference <= 1:
-        # print(f"     A fluctuation of in temperature HAST NOT been detected.")
-        # print(f"     Smoker temperature has remained the same from {initial_temp} to {present_temp}.")
-        # print(f"     A change of less than {round(temperature_difference, 1)}")
-        # print(f"     Your food has stalled.")
         degree = "\u00b0"+"F"
         print(f"ERROR: Temperature stalled with only a {round(temperature_difference, 1)}{degree} change in 10 minutes.")
 
