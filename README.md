@@ -61,5 +61,6 @@ Run each terminal long enough that you can show the significant events in your s
 
 ### Proof of Viability
 ![image](https://user-images.githubusercontent.com/115908053/220511783-0e59619b-55a8-4878-9a62-4a4014e22c39.png)
+![image](https://user-images.githubusercontent.com/115908053/220512708-87bdb48c-9cae-4f1a-95d8-3814ca48e60c.png)
 
 
