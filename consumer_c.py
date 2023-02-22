@@ -45,10 +45,11 @@ def decode_message(ch, method, properties, body):
     temperature_difference = abs(float(initial_temp) - float(present_temp))
 
     # Temperature difference
-    if temperature_difference >= 1:
-        print(f"     A fluctuation of in temperature has been detected.")
-        print(f"     Smoker temperature has decreased from {initial_temp} to {present_temp}.")
-        print(f"     A change of more than {round(temperature_difference, 4)}")
+    if temperature_difference <= 1:
+        print(f"     A fluctuation of in temperature HAST NOT been detected.")
+        print(f"     Smoker temperature has remained the same from {initial_temp} to {present_temp}.")
+        print(f"     A change of less than {round(temperature_difference, 1)}")
+        print(f"     Your food has stalled.")
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
     time.sleep(5)
