@@ -25,18 +25,16 @@ deque_1 = deque(maxlen = 5)
 deque_2 = deque(maxlen = 20)
 deque_3 = deque(maxlen = 20)
 
-"""  
-Define behavior on getting a message.
------------------------------------------------------------------------------------------- """
 # define a callback function to be called when a message is received
 def callback1(ch, method, properties, body):
-    all_data = []
+    """ 
+    test
+    ---------------------------------------------------------------------------
+    """
     # decode the binary message body to a string
     print(f" [x] Received {body.decode()}") # at {strftime('%H:%M:%S')} from 01-smoker")
     # simulate work by sleeping for the number of dots in the message
     # time.sleep(body.count(b"."))
-
-    recieved_message = body.decode()
 
     # Deque 
     deque_1.append(body.decode())
@@ -47,26 +45,31 @@ def callback1(ch, method, properties, body):
     initial_temp = float(initial_split[1][:-1])
     # initial_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_initial))
 
-    # present_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_present))
+    # Deque Present
     present_data = body.decode()
     present_split = present_data.split(",")
     present_temp = float(present_split[1][:-1])
-    # initial_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_initial))
+    # present_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_present))
 
     # Calculate temperature difference
-    a = abs(float(initial_temp) - float(present_temp))
-    if a >= 15:
-        print(f" [x] A fluctuation of {a} has been detected. Smoker temperature has decreased by more than 15 degrees F in 2.5 minutes.")
+    temperature_difference = abs(float(initial_temp) - float(present_temp))
+
+    # Temperature difference
+    if temperature_difference >= 15:
+        print(f"     A fluctuation of in temperature has been detected.")
+        print(f"     Smoker temperature has decreased from {initial_temp} to {present_temp}.")
+        print(f"     A change of more than {temperature_difference}")
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
     time.sleep(1)
 
 
-"""  
-Continuously listen for task messages on a named queue.
------------------------------------------------------------------------------------------- """
 # define a main function to run the program
 def main(hn: str = "localhost", qn1: str = "01-smoker", qn2: str = "02-food-A", qn3: str = "03-food-B"):
+    """ 
+    Continuously listen for task messages on a named queue.
+    ---------------------------------------------------------------------------
+    """
     # when a statement can go wrong, use a try-except block
     try:
         # try this code, if it works, keep going
