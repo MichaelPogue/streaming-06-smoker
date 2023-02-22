@@ -60,6 +60,6 @@ Run each terminal long enough that you can show the significant events in your s
 3. Visible Food B stall with timestamp :heavy_check_mark:
 
 ### Proof of Viability
-![image](https://user-images.githubusercontent.com/115908053/220508785-8491709b-faa7-4425-b7bf-a35f18860b09.png)
+![image](https://user-images.githubusercontent.com/115908053/220511783-0e59619b-55a8-4878-9a62-4a4014e22c39.png)
 
 
