@@ -3,19 +3,20 @@
 This code will monitor incoming traffic from RabbitMQ and monitor it for 
 problematic temperature fluctuations.
 """
-
+# Import modules used.
 import pika
 import sys
 import time
-import re
 import os
 from collections import deque
 from time import strftime 
 
+# Set variables to be used.
 EMAIL = os.getenv("EMAIL_ADDRESS")
 host = 'localhost'
 data_queue = "03-food-B"
 data_deque = deque(maxlen = 20)
+data_warning = 1
 
 # define a callback function to be called when a message is received
 def decode_message(ch, method, properties, body):
@@ -43,7 +44,7 @@ def decode_message(ch, method, properties, body):
     temperature_difference = abs(float(initial_temp) - float(present_temp))
 
     # Calculate if the temperature is within parameters, then send a warning message.
-    if temperature_difference <= 1:
+    if temperature_difference <= data_warning:
         degree = "\u00b0"+"F"
         print(f"ERROR: Temperature stalled with only a {round(temperature_difference, 1)}{degree} change in 10 minutes.")
 
