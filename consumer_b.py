@@ -50,10 +50,11 @@ def decode_message(ch, method, properties, body):
         # print(f"     Smoker temperature has remained the same from {initial_temp} to {present_temp}.")
         # print(f"     A change of less than {round(temperature_difference, 1)}")
         # print(f"     Your food has stalled.")
-        print(f"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        degree = "\u00b0"+"F"
+        print(f"ERROR: Temperature stalled with only a {round(temperature_difference, 1)}{degree} change in 10 minutes.")
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
-    time.sleep(1)
+    time.sleep(.1)
 
 # define a main function to run the program
 def main(hn: str, qn: str):
