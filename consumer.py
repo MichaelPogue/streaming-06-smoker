@@ -60,7 +60,8 @@ def callback1(ch, method, properties, body):
     if a >= 15:
         print(f"A fluctuation of {a} has been detected. Smoker temperature has decreased by more than 15 degrees F in 2.5 minutes.")
 
-    time.sleep(5)
+    ch.basic_ack(delivery_tag = method.delivery_tag)
+    time.sleep(1)
 
 
 """  
