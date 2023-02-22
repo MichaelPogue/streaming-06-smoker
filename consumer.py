@@ -42,23 +42,21 @@ def callback1(ch, method, properties, body):
     deque_1.append(body.decode())
 
     # Deque Initial
-    deque_1_initial = deque_1[0]
-    initial_split = deque_1_initial.split(",")
+    initial_data = deque_1[0]
+    initial_split = initial_data.split(",")
     initial_temp = float(initial_split[1][:-1])
     # initial_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_initial))
 
-    # Deque Present
-    deque_1_present = body.decode()
     # present_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_present))
-    deque_1_present = deque_1[0]
-    present_split = deque_1_present.split(",")
+    present_data = body.decode()
+    present_split = present_data.split(",")
     present_temp = float(present_split[1][:-1])
     # initial_temp = str(re.findall(r"[-+]?\d*\.\d+", deque_1_initial))
 
     # Calculate temperature difference
     a = abs(float(initial_temp) - float(present_temp))
     if a >= 15:
-        print(f"A fluctuation of {a} has been detected. Smoker temperature has decreased by more than 15 degrees F in 2.5 minutes.")
+        print(f" [x] A fluctuation of {a} has been detected. Smoker temperature has decreased by more than 15 degrees F in 2.5 minutes.")
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
     time.sleep(1)
