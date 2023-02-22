@@ -7,7 +7,7 @@ should the data be outside the expected levels.
 
 ### Project Prerequisites
 1. CSV data file with a similar format of the following: 
-5/22/2021 16:23	261.4		
+5/22/2021 16:23	261.4
 5/22/2021 16:23	261.4		
 5/22/2021 16:23		147.9	
 5/22/2021 16:23		147.9	142.3
