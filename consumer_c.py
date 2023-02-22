@@ -13,7 +13,7 @@ from time import strftime # Importing time module to track production and consum
 EMAIL = os.getenv("EMAIL_ADDRESS")
 host = 'localhost'
 data_queue = "03-food-B"
-data_deque = deque(maxlen = 5)
+data_deque = deque(maxlen = 20)
 
 # define a callback function to be called when a message is received
 def decode_message(ch, method, properties, body):
@@ -46,13 +46,14 @@ def decode_message(ch, method, properties, body):
 
     # Temperature difference
     if temperature_difference <= 1:
-        print(f"     A fluctuation of in temperature HAST NOT been detected.")
-        print(f"     Smoker temperature has remained the same from {initial_temp} to {present_temp}.")
-        print(f"     A change of less than {round(temperature_difference, 1)}")
-        print(f"     Your food has stalled.")
+        # print(f"     A fluctuation of in temperature HAST NOT been detected.")
+        # print(f"     Smoker temperature has remained the same from {initial_temp} to {present_temp}.")
+        # print(f"     A change of less than {round(temperature_difference, 1)}")
+        # print(f"     Your food has stalled.")
+        print(f"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
-    time.sleep(5)
+    time.sleep(.1)
 
 # define a main function to run the program
 def main(hn: str, qn: str):

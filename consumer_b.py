@@ -46,13 +46,14 @@ def decode_message(ch, method, properties, body):
 
     # Temperature difference
     if temperature_difference <= 1:
-        print(f"     A fluctuation of in temperature HAST NOT been detected.")
-        print(f"     Smoker temperature has remained the same from {initial_temp} to {present_temp}.")
-        print(f"     A change of less than {round(temperature_difference, 1)}")
-        print(f"     Your food has stalled.")
+        # print(f"     A fluctuation of in temperature HAST NOT been detected.")
+        # print(f"     Smoker temperature has remained the same from {initial_temp} to {present_temp}.")
+        # print(f"     A change of less than {round(temperature_difference, 1)}")
+        # print(f"     Your food has stalled.")
+        print(f"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
-    time.sleep(5)
+    time.sleep(1)
 
 # define a main function to run the program
 def main(hn: str, qn: str):
@@ -73,7 +74,7 @@ def main(hn: str, qn: str):
         print(f"Verify the server is running on host={hn}.")
         print(f"The error says: {e}")
         print()
-        sys.exit(1)
+        sys.exit(.1)
 
     try:
         # use the connection to create a communication channel
