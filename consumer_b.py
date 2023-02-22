@@ -48,7 +48,7 @@ def decode_message(ch, method, properties, body):
     if temperature_difference >= 1:
         print(f"     A fluctuation of in temperature has been detected.")
         print(f"     Smoker temperature has decreased from {initial_temp} to {present_temp}.")
-        print(f"     A change of more than {round(temperature_difference)}")
+        print(f"     A change of more than {round(temperature_difference, 4)}")
 
     ch.basic_ack(delivery_tag = method.delivery_tag)
     time.sleep(5)
