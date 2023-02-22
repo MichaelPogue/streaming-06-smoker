@@ -39,7 +39,7 @@ def callback1(ch, method, properties, body):
     recieved_message = body.decode()
 
     # Deque 
-    deque_1.append(recieved_message)
+    deque_1.append(body.decode())
 
     # Deque Initial
     deque_1_initial = deque_1[0]
